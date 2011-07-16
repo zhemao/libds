@@ -1,4 +1,3 @@
-syntax: glob
 *test
 *.o
 libds.a
