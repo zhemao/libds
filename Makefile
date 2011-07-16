@@ -1,5 +1,8 @@
 libds.a: list.o vector.o map.o strutils.o
 	ar rcs libds.a list.o vector.o map.o strutils.o
+	
+ds.h: list.h vector.h map.h strutils.h
+	cat list.h vector.h map.h strutils.h > ds.h
 
 listtest: list.o listtest.c
 	gcc -o listtest list.o listtest.c
