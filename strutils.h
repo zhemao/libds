@@ -27,6 +27,8 @@ void destroy_buffer(stringbuf * buf);
 char * saferead(FILE * f);
 /* split the string into a vector around the delimiter string */
 vector* str_split(char * str, char * delim);
+/* strip trailing whitespace and newline characters from a string */
+void str_strip(char * str, int len);
 
 #endif /* __STRUTILS_H__ */
 
