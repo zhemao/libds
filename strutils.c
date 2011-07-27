@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include "strutils.h"
 
 char * saferead(FILE * f){
@@ -68,5 +69,23 @@ void str_strip(char * str, int len){
 		if(c=='\n'||c=='\r'||c=='\t'||c==' ')
 			str[i] = 0;
 		else break;
+	}
+}
+
+void str_lower(char * str){
+	int i;
+	for(i=0; str[i]; i++){
+		if(isupper(str[i])){
+			str[i] += 32;
+		}
+	}
+}
+
+void str_upper(char * str){
+	int i;
+	for(i=0; str[i]; i++){
+		if(islower(str[i])){
+			str[i] -= 32;
+		}
 	}
 }

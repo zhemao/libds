@@ -29,6 +29,10 @@ char * saferead(FILE * f);
 vector* str_split(char * str, char * delim);
 /* strip trailing whitespace and newline characters from a string */
 void str_strip(char * str, int len);
+/* convert the characters in a string to lowercase */
+void str_lower(char * str);
+/* convert the characters in the string to uppercase */
+void str_upper(char * str);
 
 #endif /* __STRUTILS_H__ */
 
