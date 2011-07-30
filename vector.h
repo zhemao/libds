@@ -10,6 +10,7 @@
 
 typedef struct{
 	void** data;
+	int * sizes;
 	size_t length;
 	size_t capacity;
 } vector;
@@ -19,7 +20,7 @@ typedef struct{
 vector* create_vector();
 /* Create a new vector that is composed of the items in the old vector with
    indices in the range of [start,end) */
-vector* subvector(vector * old, int start, int end);
+vector* subvector(vector * vec, int start, int end);
 /* Add an item to the end of the vector */
 void vector_add(vector* vec, void* data, size_t n);
 /* Get the item at index i of the vector */

@@ -4,33 +4,36 @@
 vector* create_vector(){
 	vector* vec = (vector*)malloc(sizeof(vector));
 	vec->data = (void**)malloc(sizeof(void*)*BASE_CAP);
+	vec->sizes = (int*)malloc(sizeof(int)*BASE_CAP);
 	vec->capacity = BASE_CAP;
 	vec->length = 0;
 	return vec;
 }
 
-vector * subvector(vector * old, int start, int end){
+vector * subvector(vector * vec, int start, int end){
 	int length = end-start;
-	vector * new = create_vector();
+	vector * subvec = create_vector();
 	int i;
 	void * val;
 	for(i=start; i<end; i++){
-		val = vector_get(old, i);
-		vector_add(new, val, sizeof(val));
+		val = vec->data[i];
+		vector_add(subvec, val, vec->sizes[i]);
 	}
-	return new;
+	return subvec;
 }
 
 void check_length(vector* vec){
 	if(vec->length >= vec->capacity){
 		vec->capacity*=EXPAND_RATIO;
 		vec->data = (void**)realloc((void*)vec->data, vec->capacity*sizeof(void*));
+		vec->sizes = (int*)realloc((void*)vec->sizes, vec->capacity*sizeof(int));
 	}
 }
 
 void vector_add(vector* vec, void* data, size_t n){
 	check_length(vec);
 	vec->data[vec->length] = malloc(n);
+	vec->sizes[vec->length] = n;
 	memcpy(vec->data[vec->length], data, n);
 	vec->length++;
 }
@@ -46,6 +49,7 @@ int vector_set(vector* vec, size_t i, void* data, size_t n){
 		return -1;
 	free(vec->data[i]);
 	vec->data[i] = malloc(n);
+	vec->sizes[i] = n;
 	memcpy(vec->data[i], data, n);
 	return 0;
 }
@@ -53,9 +57,12 @@ int vector_set(vector* vec, size_t i, void* data, size_t n){
 int vector_insert(vector* vec, size_t i, void* data, size_t n){
 	int x;
 	check_length(vec);
-	for(x=vec->length;x>=i;x--)
+	for(x=vec->length;x>=i;x--){
 		vec->data[x+1] = vec->data[x];
+		vec->sizes[x+1] = vec->sizes[x+1];
+	}
 	vec->data[i] = malloc(n);
+	vec->sizes[i] = n;
 	memcpy(vec->data[i], data, n);
 	vec->length++;
 	return 0;
@@ -67,15 +74,17 @@ void vector_remove(vector* vec, size_t i){
 		return;
 	free(vec->data[i]);
 	vec->length--;
-	for(x=i;x<vec->length;++x)
+	for(x=i;x<vec->length;++x){
 		vec->data[x] = vec->data[x+1];
+		vec->sizes[x] = vec->sizes[x+1];
+	}
 }
 
 int vector_index(vector* vec, void* data, size_t n){
 	int x;
 	void* check;
 	for(x=0;x<vec->length;++x){
-		check = vector_get(vec, x);
+		check = vec->data[x];
 		if(check==data||memcmp(check, data, n)==0){
 			return x;
 		}
@@ -86,9 +95,10 @@ int vector_index(vector* vec, void* data, size_t n){
 void destroy_vector(vector* vec){
 	int i;
 	for(i=0;i<vec->length;i++){
-	free(vec->data[i]);
+		free(vec->data[i]);
 	}
 	free(vec->data);
+	free(vec->sizes);
 	free(vec);
 }
 
