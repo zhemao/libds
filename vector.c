@@ -9,6 +9,18 @@ vector* create_vector(){
 	return vec;
 }
 
+vector * subvector(vector * old, int start, int end){
+	int length = end-start;
+	vector * new = create_vector();
+	int i;
+	void * val;
+	for(i=start; i<end; i++){
+		val = vector_get(old, i);
+		vector_add(new, val, sizeof(val));
+	}
+	return new;
+}
+
 void check_length(vector* vec){
 	if(vec->length >= vec->capacity){
 		vec->capacity*=EXPAND_RATIO;

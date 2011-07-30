@@ -17,6 +17,9 @@ typedef struct{
 /* Create a vector object. It must be eventually destroyed by a call to 
    destroy_vector to avoid memory leaks. */
 vector* create_vector();
+/* Create a new vector that is composed of the items in the old vector with
+   indices in the range of [start,end) */
+vector* subvector(vector * old, int start, int end);
 /* Add an item to the end of the vector */
 void vector_add(vector* vec, void* data, size_t n);
 /* Get the item at index i of the vector */

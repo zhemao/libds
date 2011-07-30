@@ -15,6 +15,17 @@ char * saferead(FILE * f){
 	return buf;
 }
 
+char * str_join(char **args, int len){
+	int i;
+	int size;
+	char * str;
+	for(i=0; i<len; i++){
+		size+=strlen(args[i]);
+	}
+	str = (char*)malloc(sizeof(char)*(size+1));
+	return str;
+}
+
 vector* str_split(char * str, char * delim){
 	vector * vec = create_vector();
 	char * tok = strtok(str, delim);
