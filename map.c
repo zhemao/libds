@@ -42,8 +42,8 @@ void map_put(map* m, char* key, void* val, size_t len){
 		itm = itm->next;
 	}
 	itm = (item*)malloc(sizeof(item));
-	itm->key = malloc(keylen);
-	memcpy(itm->key, key, keylen);
+	itm->key = malloc(keylen+1);
+	memcpy(itm->key, key, keylen+1);
 	itm->val = malloc(len);
 	memcpy(itm->val, val, len);
 	itm->next = NULL;
