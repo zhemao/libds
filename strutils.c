@@ -19,10 +19,21 @@ char * str_join(char **args, int len){
 	int i;
 	int size;
 	char * str;
+	
+	if(len==0) return NULL;
+	
 	for(i=0; i<len; i++){
 		size+=strlen(args[i]);
 	}
+	
+	if(size==0) return NULL;
+	
 	str = (char*)malloc(sizeof(char)*(size+1));
+	strcpy(str, args[0]);
+	
+	for(i=1; i<len; i++){
+		strcat(str, args[i]);
+	}
 	return str;
 }
 
