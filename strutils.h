@@ -25,8 +25,8 @@ void realloc_if_needed(stringbuf * buf);
 void destroy_buffer(stringbuf * buf);
 /* safely read the entire contents of the file into a properly sized string */
 char * saferead(FILE * f);
-/* join an array of strings of length len */
-char* str_join(char **args, int len);
+/* join an array of strings of length len with separator sep */
+char* str_join(char **args, char * sep, int len);
 /* split the string into a vector around the delimiter string */
 vector* str_split(char * str, char * delim);
 /* strip trailing whitespace and newline characters from a string */
