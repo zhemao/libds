@@ -89,7 +89,7 @@ void destroy_buffer(stringbuf * buf){
 void str_strip(char * str, int len){
 	int i;
 	char c;
-	for(i=len-1; i>=0; i++){
+	for(i=len-1; i>=0; i--){
 		c = str[i];
 		if(c=='\n'||c=='\r'||c=='\t'||c==' ')
 			str[i] = 0;
