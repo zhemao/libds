@@ -7,6 +7,7 @@ vector* create_vector(){
 	vec->sizes = (int*)malloc(sizeof(int)*BASE_CAP);
 	vec->capacity = BASE_CAP;
 	vec->length = 0;
+	vec->destructor = free;
 	return vec;
 }
 
@@ -47,7 +48,7 @@ void* vector_get(vector* vec, size_t i){
 int vector_set(vector* vec, size_t i, void* data, size_t n){
 	if(i >= vec->length)
 		return -1;
-	free(vec->data[i]);
+	vec->destructor(vec->data[i]);
 	vec->data[i] = malloc(n);
 	vec->sizes[i] = n;
 	memcpy(vec->data[i], data, n);
@@ -72,7 +73,7 @@ void vector_remove(vector* vec, size_t i){
 	int x;
 	if(i >= vec->length)
 		return;
-	free(vec->data[i]);
+	vec->destructor(vec->data[i]);
 	vec->length--;
 	for(x=i;x<vec->length;++x){
 		vec->data[x] = vec->data[x+1];
@@ -95,7 +96,7 @@ int vector_index(vector* vec, void* data, size_t n){
 void destroy_vector(vector* vec){
 	int i;
 	for(i=0;i<vec->length;i++){
-		free(vec->data[i]);
+		vec->destructor(vec->data[i]);
 	}
 	free(vec->data);
 	free(vec->sizes);

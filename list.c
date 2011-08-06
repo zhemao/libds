@@ -8,6 +8,7 @@ linked_list* create_list(){
 	list->length = 0;
 	list->first = NULL;
 	list->last = NULL;
+	list->destructor = free;
 	return list;
 }
 
@@ -109,7 +110,7 @@ void list_remove(linked_list* list, char end){
 	else if (end == BACK)
 		data = list_pop(list);
 	else return;
-	free(data);
+	list->destructor(data);
 }
 
 void* destroy_list(linked_list* list){
@@ -117,7 +118,7 @@ void* destroy_list(linked_list* list){
 	nodeptr next;
 	while(cur!=NULL){
 		next = cur->next;
-		free(cur->data);
+		list->destructor(cur->data);
 		free(cur);
 		cur = next;
 	}

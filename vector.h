@@ -13,6 +13,7 @@ typedef struct{
 	int * sizes;
 	size_t length;
 	size_t capacity;
+	void (*destructor)(void*);
 } vector;
 
 /* Create a vector object. It must be eventually destroyed by a call to 

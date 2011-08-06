@@ -9,6 +9,7 @@ map* create_map(){
 	for(i=0;i<NUM_BUCKETS;++i)
 		m->buckets[i] = NULL;
 	m->keys = create_vector();
+	m->destructor = free;
 	return m;
 }
 
@@ -33,7 +34,7 @@ void map_put(map* m, char* key, void* val, size_t len){
 	item* last = NULL;
 	while(itm!=NULL){
 		if(strcmp(key, itm->key)==0){
-		if(itm->val!=NULL) free(itm->val);
+		if(itm->val!=NULL) m->destructor(itm->val);
 		itm->val = malloc(len);
 		memcpy(itm->val, val, len);
 			return;
@@ -66,7 +67,7 @@ void map_remove(map* m, char* key){
 		if(last!=NULL)
 		last->next = itm->next;
 		free(itm->key);
-		free(itm->val);
+		m->destructor(itm->val);
 		free(itm);
 		keyind = vector_index(m->keys, key, n);
 		vector_remove(m->keys, keyind);
@@ -94,7 +95,7 @@ void destroy_map(map* m){
 	itm = m->buckets[x];
 		while(itm!=NULL){
 			free(itm->key);
-			free(itm->val);
+			m->destructor(itm->val);
 			free(itm);
 			itm = itm->next;
 		}

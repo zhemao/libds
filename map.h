@@ -23,6 +23,7 @@ typedef struct{
 	item** buckets;
 	size_t size;
 	vector* keys;
+	void (*destructor)(void*);
 } map;
 
 /* Create a new map. The map created by this method must be eventually 

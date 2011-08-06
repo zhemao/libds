@@ -19,6 +19,7 @@ typedef struct{
 	int length;
 	nodeptr first;
 	nodeptr last;
+	void (*destructor)(void*);
 } linked_list;
 
 typedef struct{
