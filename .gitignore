@@ -1,4 +1,4 @@
 *test
 *.o
 libds.a
-ds.h
+*.swp
