@@ -124,6 +124,7 @@ void destroy_vector(vector* vec);
    Uses string keys but has void pointer values */
 
 #include <stdlib.h>
+
 #include <time.h>
 
 #define NUM_BUCKETS 3848921
@@ -172,6 +173,7 @@ void destroy_map(map* m);
 #define __STRUTILS_H__
 
 #include <stdio.h>
+
 
 typedef struct {
 	char * str;
