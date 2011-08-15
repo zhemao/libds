@@ -15,9 +15,15 @@ stringbuf * make_buffer(int capacity);
 /* concatenate the string str into the string buffer, expanding the buffer
    if necessary */
 void buffer_concat(stringbuf * buf, char * str);
-/* writes the characters in str, followed by a NULL character, into the buffer,
+/* concatenate n characters of string str in the buffer, expanding the buffer
+   if necessary */
+void buffer_nconcat(stringbuf * buf, char * str, int n);
+/* writes the characters in str into the buffer, 
    expanding the buffer if necessary */
 void buffer_write(stringbuf * buf, char * str);
+/* writes n characters from str into the buffer, expanding the buffer if 
+   necessary */
+void buffer_nwrite(stringbuf * buf, char * str, int n);
 /* reallocate the buffer's internal string if the length of the string exceeds
    its capacity */
 void realloc_if_needed(stringbuf * buf);

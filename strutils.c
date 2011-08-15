@@ -64,7 +64,13 @@ void buffer_write(stringbuf * buf, char * str){
 	buf->length = len;
 	realloc_if_needed(buf);
 	strcpy(buf->str, str);
-	buf->str[len] = '\0';
+}
+
+void buffer_nwrite(stringbuf * buf, char * str, int n){
+	buf->length = n;
+	realloc_if_needed(buf);
+	strncpy(buf->str, str, n);
+	buf->str[n] = '\0';
 }
 
 void buffer_concat(stringbuf * buf, char * str){
@@ -72,6 +78,12 @@ void buffer_concat(stringbuf * buf, char * str){
 	buf->length += len;
 	realloc_if_needed(buf);
 	strcat(buf->str, str);
+}
+
+void buffer_nconcat(stringbuf * buf, char * str, int len){
+	buf->length += len;
+	realloc_if_needed(buf);
+	strncat(buf->str, str, len);
 }
 
 void realloc_if_needed(stringbuf * buf){
