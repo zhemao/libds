@@ -19,7 +19,7 @@ a single header file called ds.h by running make ds.h.
 
 You can link your applications to the static library like so. 
 
-gcc main.c -L. -lds -o main
+gcc -static main.c -L. -lds -o main
 
 Assuming that main.c is your program and libds.a has been copied into the same
 directory.
