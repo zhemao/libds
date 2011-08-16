@@ -50,7 +50,7 @@ void map_put(map* m, char* key, void* val, size_t len){
 	itm->next = NULL;
 	if(last==NULL) m->buckets[h] = itm;
 	else last->next = itm;
-	vector_add(m->keys, itm->key, keylen);
+	vector_add(m->keys, itm->key, keylen+1);
 	m->size++;
 }
 
