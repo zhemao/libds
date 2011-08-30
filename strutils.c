@@ -40,14 +40,29 @@ char * str_join(char **args, char * sep, int len){
 	return str;
 }
 
-vector* str_split(char * str, char * delim){
-	vector * vec = create_vector();
+char ** str_split(char * str, char * delim, int * size){
+	int len = 0, cap = 10;
+	int slen;
+	char ** array = (char**)calloc(sizeof(char*), cap);
+	
 	char * tok = strtok(str, delim);
 	while(tok){
-		vector_add(vec, tok, strlen(tok)+1);
+		if(len >= cap){
+			cap = len * 1.5;
+			array = (char**)realloc(array, sizeof(char*) * cap);
+		}
+		slen = strlen(tok);
+		if(slen > 0){
+			array[len] = (char*)malloc(slen+1);
+			strncpy(array[len], tok, slen);
+			array[len][slen] = 0;
+			len++;
+		}
 		tok = strtok(NULL, delim);
 	}
-	return vec;
+	
+	*size = len;
+	return array;
 }
 
 stringbuf * make_buffer(int capacity){

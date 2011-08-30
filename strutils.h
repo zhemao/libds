@@ -2,7 +2,6 @@
 #define __STRUTILS_H__
 
 #include <stdio.h>
-#include "vector.h"
 
 typedef struct {
 	char * str;
@@ -34,7 +33,7 @@ char * saferead(FILE * f);
 /* join an array of strings of length len with separator sep */
 char* str_join(char **args, char * sep, int len);
 /* split the string into a vector around the delimiter string */
-vector* str_split(char * str, char * delim);
+char ** str_split(char * str, char * delim, int * size);
 /* strip trailing whitespace and newline characters from a string */
 void str_strip(char * str, int len);
 /* convert the characters in a string to lowercase */

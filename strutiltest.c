@@ -6,9 +6,11 @@ int main(int argc, char *argv[]){
 	char str[256];
 	stringbuf * buf;
 	char * joinstr;
-	vector * vec;
+	char ** array;
+	int len;
 	FILE * f;
-	int nb;
+	int nb,i;
+
 	if(argc < 2){
 		printf("Usage: %s filename\n", argv[0]);
 		exit(1);
@@ -21,19 +23,17 @@ int main(int argc, char *argv[]){
 	}
 	printf("%s", buf->str);
 	
-	vec = str_split(buf->str, " ");
-	joinstr = str_join((char**)vec->data, " ", vec->length);
+	array = str_split(buf->str, " ", &len);
+	joinstr = str_join(array, " ", len);
 	
 	printf("%s", joinstr);
 	
-	if(strcmp(joinstr, buf->str)==0){
-		printf("success!\n");
-	} else{
-		printf("failure\n");
+	for(i=0; i<len; i++){
+		free(array[i]);
 	}
 	
+	free(array);
 	free(joinstr);	
-	destroy_vector(vec);
 	destroy_buffer(buf);
 	fclose(f);
 	return 0;
