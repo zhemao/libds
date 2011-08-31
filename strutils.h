@@ -40,7 +40,8 @@ void str_strip(char * str, int len);
 void str_lower(char * str);
 /* convert the characters in the string to uppercase */
 void str_upper(char * str);
-
+int str_startswith(char * stra, char * strb);
+int str_endswith(char * stra, char * strb);
 #endif /* __STRUTILS_H__ */
 
 

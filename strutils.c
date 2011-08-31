@@ -141,3 +141,17 @@ void str_upper(char * str){
 		}
 	}
 }
+
+int str_startswith(char * stra, char * strb){
+	int len = strlen(strb);
+	return strncmp(stra, strb, len) == 0;
+}
+
+int str_endswith(char * stra, char * strb){
+	int lena = strlen(stra);
+	int lenb = strlen(strb);
+	
+	if(lenb > lena) return 0;
+	
+	return strcmp(stra+(lena-lenb), strb)==0;
+}
