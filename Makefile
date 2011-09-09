@@ -1,11 +1,11 @@
 OPTS=-O2
 LDFLAGS=-L. -lds
 
-libds.a: list.o vector.o map.o strutils.o
-	ar rcs libds.a list.o vector.o map.o strutils.o
+libds.a: list.o vector.o hashmap.o strutils.o
+	ar rcs libds.a list.o vector.o hashmap.o strutils.o
 	
-ds.h: list.h vector.h map.h strutils.h
-	cat list.h vector.h map.h strutils.h | sed -e 's/#include "vector.h"//' > ds.h
+ds.h: list.h vector.h hashmap.h strutils.h
+	cat list.h vector.h hashmap.h strutils.h | sed -e 's/#include "vector.h"//' > ds.h
 
 listtest: libds.a listtest.c
 	gcc $(OPTS) -static listtest.c $(LDFLAGS) -o listtest 
@@ -19,8 +19,8 @@ vector.o: vector.h vector.c
 vectest: libds.a vectest.c
 	gcc $(OPTS) -static vectest.c $(LDFLAGS) -o vectest
 
-map.o: map.h map.c
-	gcc $(OPTS) -c map.c
+hashmap.o: hashmap.h hashmap.c
+	gcc $(OPTS) -c hashmap.c
 
 maptest: libds.a maptest.c
 	gcc $(OPTS) -static maptest.c $(LDFLAGS) -o maptest

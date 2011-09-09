@@ -1,8 +1,8 @@
-#include "map.h"
+#include "hashmap.h"
 #include <string.h>
 
-map* create_map(){
-	map* m = (map*)malloc(sizeof(map));
+hashmap* create_hashmap(){
+	hashmap* m = (hashmap*)malloc(sizeof(hashmap));
 	int i;
 	m->size=0;
 	m->buckets = (item**)malloc(sizeof(item*)*NUM_BUCKETS);
@@ -13,7 +13,7 @@ map* create_map(){
 	return m;
 }
 
-void* map_get(map* m, char * key){
+void* hashmap_get(hashmap* m, char * key){
 	if(key==NULL){
 		return NULL;
 	}
@@ -27,7 +27,7 @@ void* map_get(map* m, char * key){
 	return NULL;
 }
 
-void map_put(map* m, char* key, void* val, size_t len){
+void hashmap_put(hashmap* m, char* key, void* val, size_t len){
 	int keylen = strlen(key);
 	size_t h = hash_func(key);
 	item* itm = m->buckets[h];
@@ -54,7 +54,7 @@ void map_put(map* m, char* key, void* val, size_t len){
 	m->size++;
 }
 
-void map_remove(map* m, char* key){
+void hashmap_remove(hashmap* m, char* key){
 	int n = strlen(key);
 	size_t h = hash_func(key);
 	item *itm = m->buckets[h];
@@ -88,7 +88,7 @@ size_t hash_func(char * key){
 	return h % NUM_BUCKETS;
 }
 
-void destroy_map(map* m){
+void destroy_hashmap(hashmap* m){
 	int x;
 	item* itm;
 	for(x=0;x<NUM_BUCKETS;++x){
