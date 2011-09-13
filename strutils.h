@@ -34,13 +34,17 @@ char * saferead(FILE * f);
 char* str_join(char **args, char * sep, int len);
 /* split the string into a vector around the delimiter string */
 char ** str_split(char * str, char * delim, int * size);
+/* free the elements of a string array, as well as the array itself */
+void free_str_array(char ** arr, int len);
 /* strip trailing whitespace and newline characters from a string */
 void str_strip(char * str, int len);
 /* convert the characters in a string to lowercase */
 void str_lower(char * str);
 /* convert the characters in the string to uppercase */
 void str_upper(char * str);
+/* tests whether stra is starts with the string strb */
 int str_startswith(char * stra, char * strb);
+/* tests whether stra ends with the string strb */
 int str_endswith(char * stra, char * strb);
 #endif /* __STRUTILS_H__ */
 

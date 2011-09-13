@@ -28,11 +28,8 @@ int main(int argc, char *argv[]){
 	
 	printf("%s", joinstr);
 	
-	for(i=0; i<len; i++){
-		free(array[i]);
-	}
-	
-	free(array);
+	free_str_array(array, len);
+
 	free(joinstr);	
 	destroy_buffer(buf);
 	fclose(f);
