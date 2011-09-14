@@ -1,11 +1,12 @@
 OPTS=-O2
-LDFLAGS=-L. -lds
+LDFLAGS=-L. -ld
+HEADERS=list.h vector.h hashmap.h strutils.h
 
 libds.a: list.o vector.o hashmap.o strutils.o
 	ar rcs libds.a list.o vector.o hashmap.o strutils.o
 	
-ds.h: list.h vector.h hashmap.h strutils.h
-	cat list.h vector.h hashmap.h strutils.h | sed -e 's/#include "vector.h"//' > ds.h
+ds.h: $(HEADERS)
+	cat $(HEADERS) | sed -e 's/#include "vector.h"//' > ds.h
 
 listtest: libds.a listtest.c
 	gcc $(OPTS) -static listtest.c $(LDFLAGS) -o listtest 
