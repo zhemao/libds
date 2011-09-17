@@ -107,6 +107,7 @@ void buffer_nconcat(stringbuf * buf, char * str, int len){
 	buf->length += len;
 	realloc_if_needed(buf);
 	strncat(buf->str, str, len);
+	buf->str[buf->length] = 0;
 }
 
 void realloc_if_needed(stringbuf * buf){

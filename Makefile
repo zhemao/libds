@@ -1,5 +1,5 @@
 OPTS=-O2
-LDFLAGS=-L. -ld
+LDFLAGS=-L. -lds
 HEADERS=list.h vector.h hashmap.h strutils.h
 
 libds.a: list.o vector.o hashmap.o strutils.o
