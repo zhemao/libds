@@ -11,7 +11,7 @@ typedef int (*heapcmpfunc)(vector*, int, int);
 
 void heapify(vector * heap, int i, heapcmpfunc cmpfunc);
 void build_heap(vector * heap, heapcmpfunc cmpfunc);
-void * heap_pop(vector * heap, heapcmpfunc cmpfunc);
+void heap_remove(vector * heap, heapcmpfunc cmpfunc);
 void heap_insert(vector * heap, void * val, int size, heapcmpfunc cmpfunc);
 
 #endif /* __HEAP_H__ */
