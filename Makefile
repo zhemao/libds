@@ -1,9 +1,10 @@
 OPTS=-O2
 LDFLAGS=-L. -lds
-HEADERS=list.h vector.h hashmap.h strutils.h
+HEADERS=list.h vector.h hashmap.h strutils.h heap.h
+OBJS=list.o vector.o hashmap.o strutils.o heap.o
 
-libds.a: list.o vector.o hashmap.o strutils.o
-	ar rcs libds.a list.o vector.o hashmap.o strutils.o
+libds.a: $(OBJS)
+	ar rcs libds.a $(OBJS)
 	
 ds.h: $(HEADERS)
 	cat $(HEADERS) | sed -e 's/#include "vector.h"//' > ds.h
@@ -31,6 +32,9 @@ strutiltest: strutiltest.c libds.a
 
 strutils.o: strutils.h strutils.c
 	gcc $(OPTS) -c strutils.c
+
+heap.o: heap.h heap.c
+	gcc $(OPTS) -c heap.c
 
 clean:
 	rm -f *test *.o *.a
