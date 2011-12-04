@@ -65,6 +65,14 @@ char ** str_split(char * str, char * delim, int * size){
 	return array;
 }
 
+void free_str_array(char ** arr, int len){
+	int i;
+	for(i=0; i<len; i++){
+		free(arr[i]);
+	}
+	free(arr);
+}
+
 stringbuf * make_buffer(int capacity){
 	stringbuf * buf = (stringbuf*)malloc(sizeof(stringbuf));
 	buf->length = 0;
@@ -99,6 +107,7 @@ void buffer_nconcat(stringbuf * buf, char * str, int len){
 	buf->length += len;
 	realloc_if_needed(buf);
 	strncat(buf->str, str, len);
+	buf->str[buf->length] = 0;
 }
 
 void realloc_if_needed(stringbuf * buf){

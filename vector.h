@@ -41,6 +41,8 @@ void vector_remove(vector* vec, size_t i);
 void check_length(vector* vec);
 /* Destroy the vector and free all the memory associated with it. */
 void destroy_vector(vector* vec);
+/* Swaps the pointers at indices i and j in the vector */
+void vector_swap(vector* vec, int i, int j);
 
 
 #endif

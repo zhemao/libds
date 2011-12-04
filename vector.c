@@ -40,13 +40,13 @@ void vector_add(vector* vec, void* data, size_t n){
 }
 
 void* vector_get(vector* vec, size_t i){
-	if(i >= vec->length)
+	if(i >= vec->length || i < 0)
 		return NULL;
 	return vec->data[i];
 }
 
 int vector_set(vector* vec, size_t i, void* data, size_t n){
-	if(i >= vec->length)
+	if(i >= vec->length || i < 0)
 		return -1;
 	vec->destructor(vec->data[i]);
 	vec->data[i] = malloc(n);
@@ -57,6 +57,10 @@ int vector_set(vector* vec, size_t i, void* data, size_t n){
 
 int vector_insert(vector* vec, size_t i, void* data, size_t n){
 	int x;
+	
+	if(i > vec->length || i < 0)
+		return -1;
+	
 	check_length(vec);
 	for(x=vec->length;x>=i;x--){
 		vec->data[x+1] = vec->data[x];
@@ -71,7 +75,7 @@ int vector_insert(vector* vec, size_t i, void* data, size_t n){
 
 void vector_remove(vector* vec, size_t i){
 	int x;
-	if(i >= vec->length)
+	if(i >= vec->length || i < 0)
 		return;
 	vec->destructor(vec->data[i]);
 	vec->length--;
@@ -103,4 +107,15 @@ void destroy_vector(vector* vec){
 	free(vec);
 }
 
+
+void vector_swap(vector * vec, int i, int j){
+	void * temp;
+	
+	if(i >= vec->length || j >= vec->length)
+		return;
+		
+	temp = vec->data[i];
+	vec->data[i] = vec->data[j];
+	vec->data[j] = temp;	
+}
 

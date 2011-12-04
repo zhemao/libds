@@ -1,14 +1,16 @@
 OPTS=-O2
 LDFLAGS=-L. -lds
+HEADERS=list.h vector.h hashmap.h strutils.h heap.h
+OBJS=list.o vector.o hashmap.o strutils.o heap.o
 
-libds.a: list.o vector.o map.o strutils.o
-	ar rcs libds.a list.o vector.o map.o strutils.o
+libds.a: $(OBJS)
+	ar rcs libds.a $(OBJS)
 	
-ds.h: list.h vector.h map.h strutils.h
-	cat list.h vector.h map.h strutils.h | sed -e 's/#include "vector.h"//' > ds.h
+ds.h: $(HEADERS)
+	cat $(HEADERS) | sed -e 's/#include "vector.h"//' > ds.h
 
 listtest: libds.a listtest.c
-	gcc $(OPTS) -static listtest.c $(LDFLAGS) -o listtest 
+	gcc $(OPTS) listtest.c $(LDFLAGS) -o listtest 
 
 list.o: list.h list.c
 	gcc $(OPTS) -c list.c
@@ -17,19 +19,25 @@ vector.o: vector.h vector.c
 	gcc $(OPTS) -c vector.c
 
 vectest: libds.a vectest.c
-	gcc $(OPTS) -static vectest.c $(LDFLAGS) -o vectest
+	gcc $(OPTS) vectest.c $(LDFLAGS) -o vectest
 
-map.o: map.h map.c
-	gcc $(OPTS) -c map.c
+hashmap.o: hashmap.h hashmap.c
+	gcc $(OPTS) -c hashmap.c
 
 maptest: libds.a maptest.c
-	gcc $(OPTS) -static maptest.c $(LDFLAGS) -o maptest
+	gcc $(OPTS) maptest.c $(LDFLAGS) -o maptest
 	
 strutiltest: strutiltest.c libds.a
-	gcc $(OPTS) -static strutiltest.c $(LDFLAGS) -o strutiltest
+	gcc $(OPTS) strutiltest.c $(LDFLAGS) -o strutiltest
 
 strutils.o: strutils.h strutils.c
 	gcc $(OPTS) -c strutils.c
+
+heap.o: heap.h heap.c
+	gcc $(OPTS) -c heap.c
+
+heaptest: libds.a heaptest.c
+	gcc $(OPTS) heaptest.c $(LDFLAGS) -o heaptest
 
 clean:
 	rm -f *test *.o *.a

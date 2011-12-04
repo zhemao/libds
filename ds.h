@@ -114,6 +114,8 @@ void vector_remove(vector* vec, size_t i);
 void check_length(vector* vec);
 /* Destroy the vector and free all the memory associated with it. */
 void destroy_vector(vector* vec);
+/* Swaps the pointers at indices i and j in the vector */
+void vector_swap(vector* vec, int i, int j);
 
 
 #endif
@@ -143,37 +145,36 @@ typedef struct{
 	size_t size;
 	vector* keys;
 	void (*destructor)(void*);
-} map;
+} hashmap;
 
-/* Create a new map. The map created by this method must be eventually 
-   destroyed by a call to destroy_map() to avoid memory leak */
-map* create_map();
+/* Create a new hashmap. The hashmap created by this method must be eventually 
+   destroyed by a call to destroy_hashmap() to avoid memory leak */
+hashmap* create_hashmap();
 
-/* Place an entry with the value val and length len into the map m and associate
+/* Place an entry with the value val and length len into the hashmap m and associate
    it with the key key. The key and value are copied by value, not by pointer,
    so if they were created on the heap, they must be freed later. */
-void map_put(map* m, char* key, void* val, size_t len);
+void hashmap_put(hashmap* m, char* key, void* val, size_t len);
 
-/* Get the value of the entry in map m associated with key key */
-void* map_get(map* m, char* key);
+/* Get the value of the entry in hashmap m associated with key key */
+void* hashmap_get(hashmap* m, char* key);
 
-/* Remove the item associated with the key key in the map m. The memory for the
-   entry is completely freed, so use map_get and make a deep copy if you wish to
+/* Remove the item associated with the key key in the hashmap m. The memory for the
+   entry is completely freed, so use hashmap_get and make a deep copy if you wish to
    retain it. */
-void map_remove(map* m, char* key);
+void hashmap_remove(hashmap* m, char* key);
 
 /* Hash function for the key key. This function is not meant to be called directly */
 size_t hash_func(char * key);
 
-/* Free all of the memory associated with map m */
-void destroy_map(map* m);
+/* Free all of the memory associated with hashmap m */
+void destroy_hashmap(hashmap* m);
 
 #endif
 #ifndef __STRUTILS_H__
 #define __STRUTILS_H__
 
 #include <stdio.h>
-
 
 typedef struct {
 	char * str;
@@ -205,14 +206,49 @@ char * saferead(FILE * f);
 /* join an array of strings of length len with separator sep */
 char* str_join(char **args, char * sep, int len);
 /* split the string into a vector around the delimiter string */
-vector* str_split(char * str, char * delim);
+char ** str_split(char * str, char * delim, int * size);
+/* free the elements of a string array, as well as the array itself */
+void free_str_array(char ** arr, int len);
 /* strip trailing whitespace and newline characters from a string */
 void str_strip(char * str, int len);
 /* convert the characters in a string to lowercase */
 void str_lower(char * str);
 /* convert the characters in the string to uppercase */
 void str_upper(char * str);
-
+/* tests whether stra is starts with the string strb */
+int str_startswith(char * stra, char * strb);
+/* tests whether stra ends with the string strb */
+int str_endswith(char * stra, char * strb);
 #endif /* __STRUTILS_H__ */
 
+
+#ifndef __HEAP_H__
+#define __HEAP_H__
+
+
+
+#define PARENT(i) (i-1)/2
+#define LEFT(i) 2*i+1
+#define RIGHT(i) 2*i+2
+
+/* heapcmpfunc is the template for the comparison function used by all heap
+   functions. It takes as arguments the heap itself and two integers i and j
+   which represent indices of two items in the heap. If the value at i is 
+   "greater" than the value at j, this function should return an integer > 0.
+   If the value at i is "less" than the value at j, the function should return
+   an integer < 0. If the values at i and j are equal, this function should 
+   return 0 */
+typedef int (*heapcmpfunc)(vector*, int, int);
+
+/* maintain the heap property starting at index i */
+void heapify(vector * heap, int i, heapcmpfunc cmpfunc);
+/* build the heap */
+void build_heap(vector * heap, heapcmpfunc cmpfunc);
+/* removes the first element from the heap and then adjusts to maintain the 
+   heap property */
+void heap_remove(vector * heap, heapcmpfunc cmpfunc);
+/* inserts the value into the heap such that the heap property is maintained */
+void heap_insert(vector * heap, void * val, int size, heapcmpfunc cmpfunc);
+
+#endif /* __HEAP_H__ */
 
