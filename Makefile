@@ -1,4 +1,4 @@
-OPTS=-O2
+OPTS=-O2 -Wall
 LDFLAGS=-L. -lds
 HEADERS=list.h vector.h hashmap.h strutils.h heap.h
 OBJS=list.o vector.o hashmap.o strutils.o heap.o

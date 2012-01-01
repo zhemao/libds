@@ -113,7 +113,7 @@ void list_remove(linked_list* list, char end){
 	list->destructor(data);
 }
 
-void* destroy_list(linked_list* list){
+void destroy_list(linked_list* list){
 	nodeptr cur = list->first;
 	nodeptr next;
 	while(cur!=NULL){

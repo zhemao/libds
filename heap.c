@@ -20,8 +20,6 @@ void heapify(heap * hp, int i){
 	int l = LEFT(i);
 	int r = RIGHT(i);
 	
-	void *ival, *lval, *rval, *largeval;
-	
 	if(l < hp->vec->length && hp->cmpfunc(hp->vec, l, i) > 0)
 		largest = l;
 	else largest = i;

@@ -59,7 +59,7 @@ void* list_poll(linked_list* list);
 void list_remove(linked_list* list, char end);
 
 /* Completely free the data associated with the list. */
-void* destroy_list(linked_list* list);
+void destroy_list(linked_list* list);
 
 /* Return the data held by the current item pointed to by the iterator */
 void* list_current(list_iter* list);
