@@ -24,25 +24,25 @@ void print_heap(vector * heap){
 }
 
 int main(void){
-	vector * heap = create_vector();
+	heap * hp = create_heap(cmpfunc);
 	int i;
 	int * iVal;
 	
 	for(i=0; i<8; i++){
-		vector_add(heap, &i, sizeof(int));
+		vector_add(hp->vec, &i, sizeof(int));
 	}
 	
-	build_heap(heap, cmpfunc);
+	build_heap(hp);
 	
 	for(i=8; i<10; i++){
-		heap_insert(heap, &i, sizeof(int), cmpfunc);
+		heap_insert(hp, &i, sizeof(int));
 	}
 	
-	heap_remove(heap, cmpfunc);
+	heap_remove(hp);
 	
-	print_heap(heap);
+	print_heap(hp->vec);
 	
-	destroy_vector(heap);
+	destroy_heap(hp);
 	
 	return 0;
 }

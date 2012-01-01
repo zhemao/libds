@@ -16,15 +16,23 @@
    return 0 */
 typedef int (*heapcmpfunc)(vector*, int, int);
 
+typedef struct {
+	vector * vec;
+	heapcmpfunc cmpfunc;
+} heap;
+
+heap * create_heap(heapcmpfunc cmpfunc);
+void destroy_heap(heap * hp);
+
 /* maintain the heap property starting at index i */
-void heapify(vector * heap, int i, heapcmpfunc cmpfunc);
+void heapify(heap * hp, int i);
 /* build the heap */
-void build_heap(vector * heap, heapcmpfunc cmpfunc);
+void build_heap(heap * hp);
 /* removes the first element from the heap and then adjusts to maintain the 
    heap property */
-void heap_remove(vector * heap, heapcmpfunc cmpfunc);
+void heap_remove(heap * hp);
 /* inserts the value into the heap such that the heap property is maintained */
-void heap_insert(vector * heap, void * val, int size, heapcmpfunc cmpfunc);
+void heap_insert(heap * hp, void * val, int size);
 
 #endif /* __HEAP_H__ */
 
