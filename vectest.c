@@ -4,8 +4,8 @@
 #include "vector.h"
 
 int main(void){
-	vector* vec = create_vector();
-	vector * subvec;
+	vector_p vec = create_vector();
+	vector_p subvec;
 	int x;
 	char *str = "hello, world";
 	char *str2 = "goodbye, world";

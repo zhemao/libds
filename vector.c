@@ -1,8 +1,8 @@
 #include "vector.h"
 #include <string.h>
 
-vector* create_vector(){
-	vector* vec = (vector*)malloc(sizeof(vector));
+vector_p create_vector(){
+	vector_p vec = (vector_p)malloc(sizeof(struct vector));
 	vec->data = (void**)malloc(sizeof(void*)*BASE_CAP);
 	vec->sizes = (int*)malloc(sizeof(int)*BASE_CAP);
 	vec->capacity = BASE_CAP;
@@ -11,9 +11,8 @@ vector* create_vector(){
 	return vec;
 }
 
-vector * subvector(vector * vec, int start, int end){
-	int length = end-start;
-	vector * subvec = create_vector();
+vector_p subvector(vector_p vec, int start, int end){
+	vector_p subvec = create_vector();
 	int i;
 	void * val;
 	for(i=start; i<end; i++){
@@ -23,15 +22,17 @@ vector * subvector(vector * vec, int start, int end){
 	return subvec;
 }
 
-void check_length(vector* vec){
+void check_length(vector_p vec){
 	if(vec->length >= vec->capacity){
 		vec->capacity*=EXPAND_RATIO;
-		vec->data = (void**)realloc((void*)vec->data, vec->capacity*sizeof(void*));
-		vec->sizes = (int*)realloc((void*)vec->sizes, vec->capacity*sizeof(int));
+		vec->data = (void**)realloc((void*)vec->data, 
+									vec->capacity*sizeof(void*));
+		vec->sizes = (int*)realloc((void*)vec->sizes, 
+									vec->capacity*sizeof(int));
 	}
 }
 
-void vector_add(vector* vec, void* data, size_t n){
+void vector_add(vector_p vec, void* data, size_t n){
 	check_length(vec);
 	vec->data[vec->length] = malloc(n);
 	vec->sizes[vec->length] = n;
@@ -39,13 +40,13 @@ void vector_add(vector* vec, void* data, size_t n){
 	vec->length++;
 }
 
-void* vector_get(vector* vec, size_t i){
+void* vector_get(vector_p vec, size_t i){
 	if(i >= vec->length || i < 0)
 		return NULL;
 	return vec->data[i];
 }
 
-int vector_set(vector* vec, size_t i, void* data, size_t n){
+int vector_set(vector_p vec, size_t i, void* data, size_t n){
 	if(i >= vec->length || i < 0)
 		return -1;
 	vec->destructor(vec->data[i]);
@@ -55,7 +56,7 @@ int vector_set(vector* vec, size_t i, void* data, size_t n){
 	return 0;
 }
 
-int vector_insert(vector* vec, size_t i, void* data, size_t n){
+int vector_insert(vector_p vec, size_t i, void* data, size_t n){
 	int x;
 	
 	if(i > vec->length || i < 0)
@@ -73,7 +74,7 @@ int vector_insert(vector* vec, size_t i, void* data, size_t n){
 	return 0;
 }
 
-void vector_remove(vector* vec, size_t i){
+void vector_remove(vector_p vec, size_t i){
 	int x;
 	if(i >= vec->length || i < 0)
 		return;
@@ -85,7 +86,7 @@ void vector_remove(vector* vec, size_t i){
 	}
 }
 
-int vector_index(vector* vec, void* data, size_t n){
+int vector_index(vector_p vec, void* data, size_t n){
 	int x;
 	void* check;
 	for(x=0;x<vec->length;++x){
@@ -97,7 +98,7 @@ int vector_index(vector* vec, void* data, size_t n){
 	return -1;
 }
 
-void destroy_vector(vector* vec){
+void destroy_vector(vector_p vec){
 	int i;
 	for(i=0;i<vec->length;i++){
 		vec->destructor(vec->data[i]);
@@ -108,7 +109,7 @@ void destroy_vector(vector* vec){
 }
 
 
-void vector_swap(vector * vec, int i, int j){
+void vector_swap(vector_p vec, int i, int j){
 	void * temp;
 	
 	if(i >= vec->length || j >= vec->length)
