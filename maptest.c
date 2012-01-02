@@ -4,8 +4,7 @@
 #include <unistd.h>
 
 int main(void){
-	hashmap* m = create_hashmap();
-	int h;
+	hashmap_p m = create_hashmap();
 	char* res;
 	hashmap_put(m, "key", (void*)"val", 4);
 	hashmap_put(m, "key", (void*)"val2", 5);

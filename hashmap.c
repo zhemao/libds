@@ -1,11 +1,11 @@
 #include "hashmap.h"
 #include <string.h>
 
-hashmap* create_hashmap(){
-	hashmap* m = (hashmap*)malloc(sizeof(hashmap));
+hashmap_p create_hashmap(){
+	hashmap_p m = (hashmap_p)malloc(sizeof(struct hashmap));
 	int i;
 	m->size=0;
-	m->buckets = (item**)malloc(sizeof(item*)*NUM_BUCKETS);
+	m->buckets = (item_t**)malloc(sizeof(item_t*)*NUM_BUCKETS);
 	for(i=0;i<NUM_BUCKETS;++i)
 		m->buckets[i] = NULL;
 	m->keys = create_vector();
@@ -13,12 +13,12 @@ hashmap* create_hashmap(){
 	return m;
 }
 
-void* hashmap_get(hashmap* m, char * key){
+void* hashmap_get(hashmap_p m, char * key){
 	if(key==NULL){
 		return NULL;
 	}
 	size_t h = hash_func(key);
-	item* itm = m->buckets[h];
+	item_t* itm = m->buckets[h];
 	while(itm!=NULL){
 		if(strcmp(key, itm->key)==0)
 			return itm->val;
@@ -27,11 +27,11 @@ void* hashmap_get(hashmap* m, char * key){
 	return NULL;
 }
 
-void hashmap_put(hashmap* m, char* key, void* val, size_t len){
+void hashmap_put(hashmap_p m, char* key, void* val, size_t len){
 	int keylen = strlen(key);
 	size_t h = hash_func(key);
-	item* itm = m->buckets[h];
-	item* last = NULL;
+	item_t* itm = m->buckets[h];
+	item_t* last = NULL;
 	while(itm!=NULL){
 		if(strcmp(key, itm->key)==0){
 		if(itm->val!=NULL) m->destructor(itm->val);
@@ -42,7 +42,7 @@ void hashmap_put(hashmap* m, char* key, void* val, size_t len){
 		if(itm->next==NULL) last = itm;
 		itm = itm->next;
 	}
-	itm = (item*)malloc(sizeof(item));
+	itm = (item_t*)malloc(sizeof(item_t));
 	itm->key = malloc(keylen+1);
 	memcpy(itm->key, key, keylen+1);
 	itm->val = malloc(len);
@@ -54,11 +54,11 @@ void hashmap_put(hashmap* m, char* key, void* val, size_t len){
 	m->size++;
 }
 
-void hashmap_remove(hashmap* m, char* key){
+void hashmap_remove(hashmap_p m, char* key){
 	int n = strlen(key);
 	size_t h = hash_func(key);
-	item *itm = m->buckets[h];
-	item *last = NULL;
+	item_t *itm = m->buckets[h];
+	item_t *last = NULL;
 	int keyind;
 	while(itm!=NULL){
 		if(strcmp(key, itm->key)==0){
@@ -88,9 +88,9 @@ size_t hash_func(char * key){
 	return h % NUM_BUCKETS;
 }
 
-void destroy_hashmap(hashmap* m){
+void destroy_hashmap(hashmap_p m){
 	int x;
-	item* itm;
+	item_t* itm;
 	for(x=0;x<NUM_BUCKETS;++x){
 	itm = m->buckets[x];
 		while(itm!=NULL){
