@@ -11,7 +11,7 @@ struct linked_node{
 	void* data;
 	struct linked_node* next;
 	struct linked_node* prev;
-} linked_node;
+};
 
 typedef struct linked_node* nodeptr;
 
