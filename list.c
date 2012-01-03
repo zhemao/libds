@@ -26,7 +26,7 @@ list_iter_p list_iterator(list_p list, char init){
 }
 
 void list_add(list_p list, void* data, int size){
-	nodeptr node = (nodeptr)malloc(sizeof(struct linked_node));
+	lnode_p node = (lnode_p)malloc(sizeof(struct linked_node));
 	node->data = malloc(size);
 	memcpy(node->data, data, size);
 	
@@ -84,7 +84,7 @@ void* list_last(list_p list){
 }
 
 void* list_pop(list_p list){
-	nodeptr last = list->last;
+	lnode_p last = list->last;
 	if(last == NULL) return NULL;
 	list->last = last->prev;
 	void* data = last->data;
@@ -94,7 +94,7 @@ void* list_pop(list_p list){
 }
 
 void* list_poll(list_p list){
-	nodeptr first = list->first;
+	lnode_p first = list->first;
 	if(first == NULL) return NULL;
 	list->first = first->next;
 	void* data = first->data;
@@ -114,8 +114,8 @@ void list_remove(list_p list, char end){
 }
 
 void destroy_list(list_p list){
-	nodeptr cur = list->first;
-	nodeptr next;
+	lnode_p cur = list->first;
+	lnode_p next;
 	while(cur!=NULL){
 		next = cur->next;
 		list->destructor(cur->data);

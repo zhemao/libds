@@ -13,19 +13,19 @@ struct linked_node{
 	struct linked_node* prev;
 };
 
-typedef struct linked_node* nodeptr;
+typedef struct linked_node* lnode_p;
 
 struct list{
 	int length;
-	nodeptr first;
-	nodeptr last;
+	lnode_p first;
+	lnode_p last;
 	void (*destructor)(void*);
 };
 
 typedef struct list * list_p;
 
 struct list_iter{
-	nodeptr current;
+	lnode_p current;
 	char started;
 };
 
