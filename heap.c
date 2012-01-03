@@ -2,20 +2,20 @@
 #include <stdlib.h>
 #include <string.h>
 
-heap * create_heap(heapcmpfunc cmpfunc){
-	heap * hp = (heap *) malloc(sizeof(heap));
+heap_p create_heap(heapcmpfunc cmpfunc){
+	heap_p hp = (heap_p) malloc(sizeof(struct heap));
 	hp->vec = create_vector();
 	hp->cmpfunc = cmpfunc;
 
 	return hp;
 }
 
-void destroy_heap(heap * hp){
+void destroy_heap(heap_p hp){
 	destroy_vector(hp->vec);
 	free(hp);
 }
 
-void heapify(heap * hp, int i){
+void heapify(heap_p hp, int i){
 	int largest;
 	int l = LEFT(i);
 	int r = RIGHT(i);
@@ -33,7 +33,7 @@ void heapify(heap * hp, int i){
 	}
 }
 
-void build_heap(heap * hp){
+void build_heap(heap_p hp){
 	int i;
 	
 	for(i=PARENT(hp->vec->length-1); i>=0; i--){
@@ -41,7 +41,7 @@ void build_heap(heap * hp){
 	}
 }
 
-void heap_remove(heap * hp){
+void heap_remove(heap_p hp){
 	
 	vector_swap(hp->vec, 0, hp->vec->length-1);
 	vector_remove(hp->vec, hp->vec->length-1);
@@ -49,7 +49,7 @@ void heap_remove(heap * hp){
 	heapify(hp, 0);
 }
 
-void heap_insert(heap * hp, void * val, int size){
+void heap_insert(heap_p hp, void * val, int size){
 	int i;
 	
 	vector_add(hp->vec, val, size);

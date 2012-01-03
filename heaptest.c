@@ -1,7 +1,7 @@
 #include "heap.h"
 #include <stdio.h>
 
-int cmpfunc(vector * heap, int i, int j){
+int cmpfunc(vector_p heap, int i, int j){
 	int * iVal;
 	int * jVal;
 	
@@ -11,7 +11,7 @@ int cmpfunc(vector * heap, int i, int j){
 	return (*iVal) - (*jVal);
 }
 
-void print_heap(vector * heap){
+void print_heap(vector_p heap){
 	int i;
 	int * iVal;
 	
@@ -24,9 +24,8 @@ void print_heap(vector * heap){
 }
 
 int main(void){
-	heap * hp = create_heap(cmpfunc);
+	heap_p hp = create_heap(cmpfunc);
 	int i;
-	int * iVal;
 	
 	for(i=0; i<8; i++){
 		vector_add(hp->vec, &i, sizeof(int));
