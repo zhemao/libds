@@ -3,8 +3,8 @@
 #include <string.h>
 
 
-linked_list* create_list(){
-	linked_list* list = (linked_list*) malloc(sizeof(linked_list));
+list_p create_list(){
+	list_p list = (list_p) malloc(sizeof(struct list));
 	list->length = 0;
 	list->first = NULL;
 	list->last = NULL;
@@ -12,8 +12,8 @@ linked_list* create_list(){
 	return list;
 }
 
-list_iter* list_iterator(linked_list* list, char init){
-	list_iter* iter = (list_iter*)malloc(sizeof(list_iter));
+list_iter_p list_iterator(list_p list, char init){
+	list_iter_p iter = (list_iter_p)malloc(sizeof(struct list_iter));
 	if(init==FRONT){
 		iter->current = list->first;
 	}
@@ -25,7 +25,7 @@ list_iter* list_iterator(linked_list* list, char init){
 	return iter;
 }
 
-void list_add(linked_list* list, void* data, int size){
+void list_add(list_p list, void* data, int size){
 	nodeptr node = (nodeptr)malloc(sizeof(struct linked_node));
 	node->data = malloc(size);
 	memcpy(node->data, data, size);
@@ -45,13 +45,13 @@ void list_add(linked_list* list, void* data, int size){
 	list->length++;
 }
 
-void* list_current(list_iter* iter){
+void* list_current(list_iter_p iter){
 	if(iter->started&&iter->current!=NULL)
 		return iter->current->data;
 	return NULL;
 }
 
-void* list_next(list_iter* iter){
+void* list_next(list_iter_p iter){
 	if(!iter->started&&iter->current!=NULL){
 		iter->started=1;
 		return iter->current->data;
@@ -63,7 +63,7 @@ void* list_next(list_iter* iter){
 	return NULL;
 }
 
-void* list_prev(list_iter* iter){
+void* list_prev(list_iter_p iter){
 	if(!iter->started&&iter->current!=NULL){
 		iter->started=1;
 		return iter->current->data;
@@ -75,15 +75,15 @@ void* list_prev(list_iter* iter){
 	return NULL;
 }
 
-void* list_first(linked_list* list){
+void* list_first(list_p list){
 	return list->first->data;
 }
 
-void* list_last(linked_list* list){
+void* list_last(list_p list){
 	return list->last->data;
 }
 
-void* list_pop(linked_list* list){
+void* list_pop(list_p list){
 	nodeptr last = list->last;
 	if(last == NULL) return NULL;
 	list->last = last->prev;
@@ -93,7 +93,7 @@ void* list_pop(linked_list* list){
 	return data;
 }
 
-void* list_poll(linked_list* list){
+void* list_poll(list_p list){
 	nodeptr first = list->first;
 	if(first == NULL) return NULL;
 	list->first = first->next;
@@ -103,7 +103,7 @@ void* list_poll(linked_list* list){
 	return data;
 }
 
-void list_remove(linked_list* list, char end){
+void list_remove(list_p list, char end){
 	void * data;
 	if(end == FRONT)
 		data = list_poll(list);
@@ -113,7 +113,7 @@ void list_remove(linked_list* list, char end){
 	list->destructor(data);
 }
 
-void destroy_list(linked_list* list){
+void destroy_list(list_p list){
 	nodeptr cur = list->first;
 	nodeptr next;
 	while(cur!=NULL){

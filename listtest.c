@@ -3,11 +3,11 @@
 #include <stdio.h>
 #include <string.h>
 
-int main(int argc, char* argv){
-	printf("%ld\n", sizeof(linked_list));
+int main(int argc, char** argv){
+	printf("%ld\n", sizeof(struct list));
 	printf("%ld\n", sizeof(struct linked_node));
-	linked_list* list = create_list();
-	linked_list* list2 = create_list();
+	list_p list = create_list();
+	list_p list2 = create_list();
 	int x;
 	int * pi;
 	
@@ -16,7 +16,7 @@ int main(int argc, char* argv){
 		list_add(list2, (void*)&x, sizeof(int));
 	}
 	
-	list_iter* iter = list_iterator(list, FRONT);
+	list_iter_p iter = list_iterator(list, FRONT);
 	
 	while(list_next(iter)!=NULL){
 		pi = (int*)list_current(iter);
@@ -37,4 +37,6 @@ int main(int argc, char* argv){
 	}
 	destroy_list(list2);
 	free(iter);
+
+	return 0;
 }
