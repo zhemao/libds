@@ -1,0 +1,107 @@
+#include "tree.h"
+#include <string.h>
+
+tnode_p make_node(void * data, int size){
+	tnode_p node = (tnode_p)malloc(sizeof(struct tree_node));
+	node->data = malloc(size);
+	memcpy(node->data, data, size);
+	node->parent = NULL;
+	node->left = NULL;
+	node->right = NULL;
+	return node;
+}
+
+void tree_insert(tree_p tr, void * data, int size){
+	tnode_p node = make_node(data, size);
+	tnode_p parent = NULL;
+	tnode_p current = tr->root;
+
+	while(current != NULL){
+		parent = current;
+		if(tr->cmpfunc(node->data, current->data) < 0){
+			current = current->left;
+		} else {
+			current = current->right;
+		}
+	}
+
+	node->parent = parent;
+	if(parent == NULL)
+		tr->root = node;
+	else if(tr->cmpfunc(node->data, parent->data) < 0)
+		parent->left = node;
+	else parent->right = node;
+}
+
+void tree_delete(tree_p tr, tnode_p node){
+	tnode_p parent, current, next;
+
+	if(node->left == NULL || node->right == NULL)
+		current = node;
+	else current = tree_successor(node);
+
+	parent = current->parent;
+
+	if(current->left != NULL)
+		next = current->left;
+	else next = current->right;
+
+	if(next != NULL)
+		next->parent = parent;
+
+	if(parent == NULL)
+		tr->root = next;
+	else if(current == parent->left)
+		parent->left = next;
+	else parent->right = next;
+
+	free(node->data);
+
+	if(node != current)
+		node->data = current->data;
+	
+	current->parent = current->left = current->right = NULL;
+	free(current);
+
+}
+
+tnode_p tree_successor(tnode_p node){
+	tnode_p next;
+	
+	if(node->right == NULL)
+		return node->parent;
+
+	next = node->right;
+
+	while(next->left != NULL)
+		next = next->left;
+
+	return next;
+}
+
+static tnode_p traverse(tnode_p node, searchfunc sfunc){
+	tnode_p res;
+	
+	if(node == NULL) return NULL;
+	if(sfunc(node->data)) return node;
+	
+	res = traverse(node->left, sfunc);
+	if(res != NULL) return res;
+	return traverse(node->right, sfunc);
+}
+
+tnode_p recursive_search(tree_p tr, searchfunc sfunc){
+	return traverse(tr->root, sfunc);
+}
+
+void destroy_node(tnode_p node){
+	if(node->left != NULL) destroy_node(node->left);
+	if(node->right != NULL) destroy_node(node->right);
+
+	node->left = NULL;
+	node->right = NULL;
+	node->parent = NULL;
+	free(node->data);
+	node->data = NULL;
+	free(node);
+}

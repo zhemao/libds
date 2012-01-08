@@ -1,7 +1,7 @@
 OPTS=-O2 -Wall
 LDFLAGS=-L. -lds
-HEADERS=list.h vector.h hashmap.h strutils.h heap.h
-OBJS=list.o vector.o hashmap.o strutils.o heap.o
+HEADERS=list.h vector.h hashmap.h strutils.h heap.h tree.h
+OBJS=list.o vector.o hashmap.o strutils.o heap.o tree.o 
 
 libds.a: $(OBJS)
 	ar rcs libds.a $(OBJS)
@@ -38,6 +38,12 @@ heap.o: heap.h heap.c
 
 heaptest: libds.a heaptest.c
 	gcc $(OPTS) heaptest.c $(LDFLAGS) -o heaptest
+
+tree.o: tree.h tree.c
+	gcc $(OPTS) -c tree.c
+
+treetest: treetest.c libds.a
+	gcc $(OPTS) treetest.c $(LDFLAGS) -o treetest
 
 clean:
 	rm -f *test *.o *.a
