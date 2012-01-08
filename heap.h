@@ -1,5 +1,5 @@
-#ifndef __HEAP_H__
-#define __HEAP_H__
+#ifndef __LIBDS_HEAP_H__
+#define __LIBDS_HEAP_H__
 
 #include "vector.h"
 

@@ -1,5 +1,5 @@
-#ifndef VECTOR_H
-#define VECTOR_H
+#ifndef __LIBDS_VECTOR_H__
+#define __LIBDS_VECTOR_H__
 
 /* A C implementation of a vector, or dynamically expanding array. */
 

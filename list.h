@@ -1,5 +1,5 @@
-#ifndef LIST_H
-#define LIST_H
+#ifndef __LIBDS_LIST_H__
+#define __LIBDS_LIST_H__
 
 /* A C implementation of a doubly-linked list. Contains void pointer values.
    Can be used as a LIFO stack of FIFO queue. */

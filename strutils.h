@@ -1,5 +1,5 @@
-#ifndef __STRUTILS_H__
-#define __STRUTILS_H__
+#ifndef __LIBDS_STRUTILS_H__
+#define __LIBDS_STRUTILS_H__
 
 #include <stdio.h>
 

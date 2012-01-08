@@ -1,5 +1,5 @@
-#ifndef MAP_H
-#define MAP_H
+#ifndef __LIBDS_HASHMAP_H__
+#define __LIBDS_HASHMAP_H__
 
 /* A C implementation of a Hash Map. 
    Uses string keys but has void pointer values */
