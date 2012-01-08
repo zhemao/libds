@@ -26,6 +26,13 @@ void print_successor(tnode_p node){
 	printf("The successor to %d is %d\n", *pia, *pib);
 }
 
+void findthree(tree_p tr){
+	int x = 3;
+	tnode_p node = tree_search(tr, &x);
+	if(node != NULL)
+		printf("We found it!\n");
+}
+
 int main(void){
 	struct tree tr;
 	tr.root = NULL;
@@ -43,6 +50,7 @@ int main(void){
 	insert_int(&tr, 18);
 	insert_int(&tr, 23);
 
+	findthree(&tr);
 
 	traverse(tr.root, print_data);
 

@@ -107,6 +107,22 @@ tnode_p tree_successor(tnode_p node){
 	return next;
 }
 
+static tnode_p search_r(tnode_p node, treecmpfunc cmpfunc, void * key){
+	int res;
+	
+	if(node == NULL) return NULL;
+	
+	res = cmpfunc(key, node->data);
+
+	if(res == 0) return node;
+	if(res < 0) return search_r(node->left, cmpfunc, key);
+	return search_r(node->right, cmpfunc, key);
+}
+
+tnode_p tree_search(tree_p tr, void * key){
+	return search_r(tr->root, tr->cmpfunc, key);
+}
+
 void traverse(tnode_p node, traversecb tcb){
 	if(node != NULL){
 		tcb(node->data);
