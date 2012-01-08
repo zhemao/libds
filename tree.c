@@ -107,19 +107,12 @@ tnode_p tree_successor(tnode_p node){
 	return next;
 }
 
-static tnode_p traverse(tnode_p node, searchfunc sfunc){
-	tnode_p res;
-	
-	if(node == NULL) return NULL;
-	if(sfunc(node->data)) return node;
-	
-	res = traverse(node->left, sfunc);
-	if(res != NULL) return res;
-	return traverse(node->right, sfunc);
-}
-
-tnode_p recursive_search(tree_p tr, searchfunc sfunc){
-	return traverse(tr->root, sfunc);
+void traverse(tnode_p node, traversecb tcb){
+	if(node != NULL){
+		tcb(node->data);
+		traverse(node->left, tcb);
+		traverse(node->right, tcb);
+	}
 }
 
 void left_rotate(tree_p tr, tnode_p node){

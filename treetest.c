@@ -9,15 +9,9 @@ int intcmpfunc(void* a, void* b){
 	return *ia - *ib;
 }
 
-void print_node(tnode_p node){
-	int * pi = (int*) node->data;
-	printf("%d\n", *pi);
-}
-
-int findone(void * data){
+void print_data(void * data){
 	int * pi = (int*) data;
 	printf("%d\n", *pi);
-	return *pi == 1;
 }
 
 void insert_int(tree_p tr, int x){
@@ -50,7 +44,7 @@ int main(void){
 	insert_int(&tr, 23);
 
 
-	recursive_search(&tr, findone);
+	traverse(tr.root, print_data);
 
 	print_successor(tr.root->left);
 
@@ -60,7 +54,7 @@ int main(void){
 	left_rotate(&tr, tr.root->right);
 	right_rotate(&tr, tr.root->right);
 
-	recursive_search(&tr, findone);
+	traverse(tr.root, print_data);
 
 	destroy_node(tr.root);
 

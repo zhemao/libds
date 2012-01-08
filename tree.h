@@ -28,14 +28,14 @@ struct tree {
 };
 
 typedef struct tree * tree_p;
-typedef int (*searchfunc)(void*);
+typedef void (*traversecb)(void*);
 
 void tree_insert(tree_p tr, void * data, int size);
 void tree_delete(tree_p tr, tnode_p node);
 void left_rotate(tree_p tr, tnode_p node);
 void right_rotate(tree_p tr, tnode_p node);
 tnode_p tree_successor(tnode_p node);
-tnode_p recursive_search(tree_p tr, searchfunc sfunc);
+void traverse(tnode_p node, traversecb);
 void destroy_node(tnode_p node);
 
 #endif
