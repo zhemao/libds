@@ -57,6 +57,8 @@ int main(void){
 	tree_delete(&tr, tr.root->left);
 	tree_delete(&tr, tr.root->left->right);
 	tree_delete(&tr, tr.root->left->left);
+	left_rotate(&tr, tr.root->right);
+	right_rotate(&tr, tr.root->right);
 
 	recursive_search(&tr, findone);
 

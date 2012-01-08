@@ -94,6 +94,46 @@ tnode_p recursive_search(tree_p tr, searchfunc sfunc){
 	return traverse(tr->root, sfunc);
 }
 
+void left_rotate(tree_p tr, tnode_p node){
+	tnode_p right = node->right;
+	if(right == NULL) return;
+	
+	node->right = right->left;
+	if(right->left != NULL)
+		right->left->parent = node;
+
+	right->parent = node->parent;
+
+	if(node->parent == NULL)
+		tr->root = right;
+	else if(node->parent->left == node)
+		node->parent->left = right;
+	else node->parent->right = right;
+
+	right->left = node;
+	node->parent = right;
+}
+
+void right_rotate(tree_p tr, tnode_p node){
+	tnode_p left = node->left;
+	if(left == NULL) return;
+
+	node->left = left->right;
+	if(left->right != NULL)
+		left->right->parent = node;
+
+	left->parent = node->parent;
+
+	if(node->parent == NULL)
+		tr->root = left;
+	else if(node->parent->left == node)
+		node->parent->left = left;
+	else node->parent->right = left;
+
+	left->right = node;
+	node->parent = left;
+}
+
 void destroy_node(tnode_p node){
 	if(node->left != NULL) destroy_node(node->left);
 	if(node->right != NULL) destroy_node(node->right);

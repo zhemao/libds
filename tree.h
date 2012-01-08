@@ -32,6 +32,8 @@ typedef int (*searchfunc)(void*);
 
 void tree_insert(tree_p tr, void * data, int size);
 void tree_delete(tree_p tr, tnode_p node);
+void left_rotate(tree_p tr, tnode_p node);
+void right_rotate(tree_p tr, tnode_p node);
 tnode_p tree_successor(tnode_p node);
 tnode_p recursive_search(tree_p tr, searchfunc sfunc);
 void destroy_node(tnode_p node);
