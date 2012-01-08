@@ -65,11 +65,39 @@ void tree_delete(tree_p tr, tnode_p node){
 
 }
 
+tnode_p tree_predecessor(tnode_p node){
+	tnode_p next;
+
+	if(node->left == NULL){
+		next = node->parent;
+		
+		while(next != NULL && node == next->left){
+			node = next;
+			next = next->parent;
+		}
+		return next;
+	}
+
+	next = node->left;
+
+	while(next->right != NULL)
+		next = next->right;
+
+	return next;
+}
+
 tnode_p tree_successor(tnode_p node){
 	tnode_p next;
 	
-	if(node->right == NULL)
-		return node->parent;
+	if(node->right == NULL){
+		next = node->parent;
+		
+		while(next != NULL && node == next->right){
+			node = next;
+			next = next->parent;
+		}
+		return next;
+	}
 
 	next = node->right;
 
