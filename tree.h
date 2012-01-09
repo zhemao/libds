@@ -34,6 +34,8 @@ void tree_insert(tree_p tr, void * data, int size);
 void tree_delete(tree_p tr, tnode_p node);
 void left_rotate(tree_p tr, tnode_p node);
 void right_rotate(tree_p tr, tnode_p node);
+tnode_p tree_minimum(tnode_p node);
+tnode_p tree_maximum(tnode_p node);
 tnode_p tree_predecessor(tnode_p node);
 tnode_p tree_successor(tnode_p node);
 tnode_p tree_search(tree_p tr, void * key);

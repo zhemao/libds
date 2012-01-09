@@ -65,45 +65,45 @@ void tree_delete(tree_p tr, tnode_p node){
 
 }
 
+tnode_p tree_minimum(tnode_p node){
+	while(node->left != NULL)
+		node = node->left;
+	return node;
+}
+
+tnode_p tree_maximum(tnode_p node){
+	while(node->right != NULL)
+		node = node->right;
+	return node;
+}
+
 tnode_p tree_predecessor(tnode_p node){
 	tnode_p next;
 
-	if(node->left == NULL){
-		next = node->parent;
+	if(node->left != NULL)
+		return tree_maximum(node->left);
+
+	next = node->parent;
 		
-		while(next != NULL && node == next->left){
-			node = next;
-			next = next->parent;
-		}
-		return next;
+	while(next != NULL && node == next->left){
+		node = next;
+		next = next->parent;
 	}
-
-	next = node->left;
-
-	while(next->right != NULL)
-		next = next->right;
-
 	return next;
 }
 
 tnode_p tree_successor(tnode_p node){
 	tnode_p next;
 	
-	if(node->right == NULL){
-		next = node->parent;
+	if(node->right != NULL)
+		return tree_minimum(node->right);
+
+	next = node->parent;
 		
-		while(next != NULL && node == next->right){
-			node = next;
-			next = next->parent;
-		}
-		return next;
+	while(next != NULL && node == next->right){
+		node = next;
+		next = next->parent;
 	}
-
-	next = node->right;
-
-	while(next->left != NULL)
-		next = next->left;
-
 	return next;
 }
 
