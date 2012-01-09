@@ -11,7 +11,7 @@ tnode_p make_node(void * data, int size){
 	return node;
 }
 
-void tree_insert(tree_p tr, void * data, int size){
+tnode_p tree_insert(tree_p tr, void * data, int size){
 	tnode_p node = make_node(data, size);
 	tnode_p parent = NULL;
 	tnode_p current = tr->root;
@@ -31,6 +31,8 @@ void tree_insert(tree_p tr, void * data, int size){
 	else if(tr->cmpfunc(node->data, parent->data) < 0)
 		parent->left = node;
 	else parent->right = node;
+
+	return node;
 }
 
 void tree_delete(tree_p tr, tnode_p node){
@@ -181,4 +183,55 @@ void destroy_node(tnode_p node){
 	free(node->data);
 	node->data = NULL;
 	free(node);
+}
+
+int rb_color(tnode_p node){
+	if(node == NULL) return BLACK;
+	return node->color;
+}
+
+tnode_p rb_insert(tree_p tr, void * data, int size){
+	tnode_p node, current, uncle, parent;
+
+	current = node = tree_insert(tr, data, size);
+	node->color = RED;
+
+	while(current != tr->root && rb_color(current->parent) == RED){
+		parent = current->parent;
+		if(parent == parent->parent->left){
+			uncle = parent->parent->right;
+			if(rb_color(uncle) == RED){
+				parent->color = BLACK;
+				uncle->color = BLACK;
+				current = parent->parent;
+				current->color = RED;
+			} else if(current == parent->right){
+				current = parent;
+				left_rotate(tr, current);
+			} else {
+				parent->color = BLACK;
+				parent->parent->color = RED;
+				right_rotate(tr, parent->parent);
+			}
+		} else {
+			uncle = parent->parent->left;
+			if(rb_color(uncle) == RED){
+				parent->color = BLACK;
+				uncle->color = BLACK;
+				current = parent->parent;
+				current->color = RED;
+			} else if(current == parent->left){
+				current = parent;
+				right_rotate(tr, current);
+			} else {
+				parent->color = BLACK;
+				parent->parent->color = RED;
+				left_rotate(tr, parent->parent);
+			}
+		}
+	}
+
+	tr->root->color = BLACK;
+	
+	return node;
 }

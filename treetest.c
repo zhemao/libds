@@ -15,7 +15,7 @@ void print_data(void * data){
 }
 
 void insert_int(tree_p tr, int x){
-	tree_insert(tr, &x, sizeof(int));
+	rb_insert(tr, &x, sizeof(int));
 }
 
 void print_successor(tnode_p node){
