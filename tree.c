@@ -35,7 +35,7 @@ tnode_p tree_insert(tree_p tr, void * data, int size){
 	return node;
 }
 
-void tree_delete(tree_p tr, tnode_p node){
+static tnode_p pull_out(tree_p tr, tnode_p node){
 	tnode_p parent, current, next;
 
 	if(node->left == NULL || node->right == NULL)
@@ -61,10 +61,17 @@ void tree_delete(tree_p tr, tnode_p node){
 
 	if(node != current)
 		node->data = current->data;
+
+	current->data = NULL;
+
+	return current;
+}
+
+void tree_delete(tree_p tr, tnode_p node){
+	tnode_p current = pull_out(tr, node);
 	
 	current->parent = current->left = current->right = NULL;
 	free(current);
-
 }
 
 tnode_p tree_minimum(tnode_p node){
@@ -234,4 +241,80 @@ tnode_p rb_insert(tree_p tr, void * data, int size){
 	tr->root->color = BLACK;
 	
 	return node;
+}
+
+static void rb_delete_fixup(tree_p tr, tnode_p parent, tnode_p node){
+	tnode_p sibling;
+	while(node != tr->root && rb_color(node) == BLACK){
+		if( node == parent->left ){
+			sibling = parent->right;
+			if(rb_color(sibling) == RED){
+				sibling->color = BLACK;
+				parent->color = RED;
+				left_rotate(tr, parent);
+				sibling = parent->right;
+			}
+
+			if(rb_color(sibling->left) == BLACK 
+					&& rb_color(sibling->right) == BLACK){
+				sibling->color = RED;
+				node = parent;
+				parent = parent->parent;
+			} else if(rb_color(sibling->right) == BLACK){
+				sibling->left->color = RED;
+				right_rotate(tr, sibling);
+				sibling = parent->right;
+			} else {
+				sibling->color = parent->color;
+				parent->color = BLACK;
+				sibling->right->color = BLACK;
+				left_rotate(tr, parent);
+				node = tr->root;
+				parent = NULL;
+			}
+		}
+		else{
+			sibling = parent->left;
+			if(rb_color(sibling) == RED){
+				sibling->color = BLACK;
+				parent->color = RED;
+				right_rotate(tr, parent);
+				sibling = parent->left;
+			}
+
+			if(rb_color(sibling->left) == BLACK 
+					&& rb_color(sibling->right) == BLACK){
+				sibling->color = RED;
+				node = parent;
+				parent = parent->parent;
+			} else if(rb_color(sibling->left) == BLACK){
+				sibling->right->color = RED;
+				left_rotate(tr, sibling);
+				sibling = parent->left;
+			} else {
+				sibling->color = parent->color;
+				parent->color = BLACK;
+				sibling->left->color = BLACK;
+				right_rotate(tr, parent);
+				node = tr->root;
+				parent = NULL;
+			}
+		}
+	}
+	if(node != NULL) node->color = BLACK;
+}
+
+void rb_delete(tree_p tr, tnode_p node){
+	tnode_p current = pull_out(tr, node);
+	tnode_p next;
+
+	if(current->left != NULL)
+		next = current->left;
+	else next = current->right;
+
+	if(rb_color(current) == BLACK)
+		rb_delete_fixup(tr, current->parent, next);
+
+	current->parent = current->left = current->right = NULL;
+	free(current);
 }

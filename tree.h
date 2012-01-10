@@ -49,5 +49,6 @@ void destroy_node(tnode_p node);
 
 int rb_color(tnode_p node);
 tnode_p rb_insert(tree_p tr, void * data, int size);
+void rb_delete(tree_p tr, tnode_p node);
 
 #endif

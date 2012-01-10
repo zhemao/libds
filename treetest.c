@@ -56,11 +56,11 @@ int main(void){
 
 	print_successor(tr.root->left);
 
-	tree_delete(&tr, tr.root->left);
-	tree_delete(&tr, tr.root->left->right);
-	tree_delete(&tr, tr.root->left->left);
-	left_rotate(&tr, tr.root->right);
-	right_rotate(&tr, tr.root->right);
+	rb_delete(&tr, tr.root->left);
+	rb_delete(&tr, tr.root->left->right);
+	rb_delete(&tr, tr.root->left->left);
+	/*left_rotate(&tr, tr.root->right);
+	right_rotate(&tr, tr.root->right);*/
 
 	traverse(tr.root, print_data);
 
