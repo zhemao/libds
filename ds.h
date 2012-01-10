@@ -1,5 +1,5 @@
-#ifndef LIST_H
-#define LIST_H
+#ifndef __LIBDS_LIST_H__
+#define __LIBDS_LIST_H__
 
 /* A C implementation of a doubly-linked list. Contains void pointer values.
    Can be used as a LIFO stack of FIFO queue. */
@@ -11,68 +11,72 @@ struct linked_node{
 	void* data;
 	struct linked_node* next;
 	struct linked_node* prev;
-} linked_node;
+};
 
-typedef struct linked_node* nodeptr;
+typedef struct linked_node* lnode_p;
 
-typedef struct{
+struct list{
 	int length;
-	nodeptr first;
-	nodeptr last;
+	lnode_p first;
+	lnode_p last;
 	void (*destructor)(void*);
-} linked_list;
+};
 
-typedef struct{
-	nodeptr current;
+typedef struct list * list_p;
+
+struct list_iter{
+	lnode_p current;
 	char started;
-} list_iter;
+};
+
+typedef struct list_iter * list_iter_p;
 
 /* Create a linked_list object. This pointer is created on the heap and must be
    cleared with a call to destroy_list to avoid memory leaks */
-linked_list* create_list();
+list_p create_list();
 
 /* Create a list_iter object for the linked_list list. The flag init can be 
    either FRONT or BACK and indicates whether to start the iterator from the first
    or last item in the list */
-list_iter* list_iterator(linked_list* list, char init);
+list_iter_p list_iterator(list_p list, char init);
 
 /* Add an item with the given value and size to the back of the list. 
    The data is copied by value, so the original pointer must be freed if it
    was allocated on the heap. */
-void list_add(linked_list* list, void* data, int size);
+void list_add(list_p list, void* data, int size);
 
 /* Gets the data stored in the first item of the list or NULL if the list is empty */
-void* list_first(linked_list* list);
+void* list_first(list_p list);
 /* Gets the data stored in the last item of the list or NULL if the list is empty */
-void* list_last(linked_list* list);
+void* list_last(list_p list);
 
 /* Removes the last item in the list (LIFO order) and returns the data stored 
    there. The data returned must be freed later in order to remain memory safe. */
-void* list_pop(linked_list* list);
+void* list_pop(list_p list);
 /* Removes the first item in the list (FIFO order) and returns the data stored 
    there. The data return must be freed later in order to remain memory safe. */
-void* list_poll(linked_list* list);
+void* list_poll(list_p list);
 /* Convenience function for completely destroying an item in the list. If the end
    flag is FRONT, an item will be polled from the front of the list and its data
    freed. If the end flag is set to BACK, an item will be popped off the end of 
    the list and the data freed. */
-void list_remove(linked_list* list, char end);
+void list_remove(list_p list, char end);
 
 /* Completely free the data associated with the list. */
-void* destroy_list(linked_list* list);
+void destroy_list(list_p list);
 
 /* Return the data held by the current item pointed to by the iterator */
-void* list_current(list_iter* list);
+void* list_current(list_iter_p list);
 /* Advances the iterator to the next item in the list and returns the data 
    stored there. */
-void* list_next(list_iter* list);
+void* list_next(list_iter_p list);
 /* Advances the iterator to the previous item in the list and returns the data 
    stored there. */
-void* list_prev(list_iter* list);
+void* list_prev(list_iter_p list);
 
 #endif
-#ifndef VECTOR_H
-#define VECTOR_H
+#ifndef __LIBDS_VECTOR_H__
+#define __LIBDS_VECTOR_H__
 
 /* A C implementation of a vector, or dynamically expanding array. */
 
@@ -81,46 +85,48 @@ void* list_prev(list_iter* list);
 #define BASE_CAP 10
 #define EXPAND_RATIO 1.5
 
-typedef struct{
+struct vector{
 	void** data;
 	int * sizes;
 	size_t length;
 	size_t capacity;
 	void (*destructor)(void*);
-} vector;
+};
+
+typedef struct vector * vector_p;
 
 /* Create a vector object. It must be eventually destroyed by a call to 
    destroy_vector to avoid memory leaks. */
-vector* create_vector();
+vector_p create_vector();
 /* Create a new vector that is composed of the items in the old vector with
    indices in the range of [start,end) */
-vector* subvector(vector * vec, int start, int end);
+vector_p subvector(vector_p vec, int start, int end);
 /* Add an item to the end of the vector */
-void vector_add(vector* vec, void* data, size_t n);
+void vector_add(vector_p vec, void* data, size_t n);
 /* Get the item at index i of the vector */
-void* vector_get(vector* vec, size_t i);
+void* vector_get(vector_p vec, size_t i);
 /* Set the item at index i of the vector to the data provided. */
-int vector_set(vector* vec, size_t i, void* data, size_t n);
+int vector_set(vector_p vec, size_t i, void* data, size_t n);
 /* Insert the data at index i of the vector and shift the other 
    items to the right. */
-int vector_insert(vector* vec, size_t i, void* data, size_t n);
+int vector_insert(vector_p vec, size_t i, void* data, size_t n);
 /* Get the index of the item in the vector that is equal to the data. 
    Equality is defined as having the same bytes in memory. */
-int vector_index(vector* vec, void* data, size_t n);
+int vector_index(vector_p vec, void* data, size_t n);
 /* Remove the item at index i of the vector and free its memory */
-void vector_remove(vector* vec, size_t i);
+void vector_remove(vector_p vec, size_t i);
 /* Check to make sure there is still room in the vector and expand it if 
    necessary. This function is not meant to be called directly. */
-void check_length(vector* vec);
+void check_length(vector_p vec);
 /* Destroy the vector and free all the memory associated with it. */
-void destroy_vector(vector* vec);
+void destroy_vector(vector_p vec);
 /* Swaps the pointers at indices i and j in the vector */
-void vector_swap(vector* vec, int i, int j);
+void vector_swap(vector_p vec, int i, int j);
 
 
 #endif
-#ifndef MAP_H
-#define MAP_H
+#ifndef __LIBDS_HASHMAP_H__
+#define __LIBDS_HASHMAP_H__
 
 /* A C implementation of a Hash Map. 
    Uses string keys but has void pointer values */
@@ -131,48 +137,50 @@ void vector_swap(vector* vec, int i, int j);
 
 #define NUM_BUCKETS 3848921
 
-struct item_t{
+struct item{
 	char* key;
 	void* val;
 	time_t expiry;
-	struct item_t * next;
+	struct item * next;
 };
 
-typedef struct item_t item;
+typedef struct item item_t;
 
-typedef struct{
-	item** buckets;
+struct hashmap{
+	item_t** buckets;
 	size_t size;
-	vector* keys;
+	vector_p keys;
 	void (*destructor)(void*);
-} hashmap;
+};
+
+typedef struct hashmap * hashmap_p;
 
 /* Create a new hashmap. The hashmap created by this method must be eventually 
    destroyed by a call to destroy_hashmap() to avoid memory leak */
-hashmap* create_hashmap();
+hashmap_p create_hashmap();
 
 /* Place an entry with the value val and length len into the hashmap m and associate
    it with the key key. The key and value are copied by value, not by pointer,
    so if they were created on the heap, they must be freed later. */
-void hashmap_put(hashmap* m, char* key, void* val, size_t len);
+void hashmap_put(hashmap_p m, char* key, void* val, size_t len);
 
 /* Get the value of the entry in hashmap m associated with key key */
-void* hashmap_get(hashmap* m, char* key);
+void* hashmap_get(hashmap_p m, char* key);
 
 /* Remove the item associated with the key key in the hashmap m. The memory for the
    entry is completely freed, so use hashmap_get and make a deep copy if you wish to
    retain it. */
-void hashmap_remove(hashmap* m, char* key);
+void hashmap_remove(hashmap_p m, char* key);
 
 /* Hash function for the key key. This function is not meant to be called directly */
 size_t hash_func(char * key);
 
 /* Free all of the memory associated with hashmap m */
-void destroy_hashmap(hashmap* m);
+void destroy_hashmap(hashmap_p m);
 
 #endif
-#ifndef __STRUTILS_H__
-#define __STRUTILS_H__
+#ifndef __LIBDS_STRUTILS_H__
+#define __LIBDS_STRUTILS_H__
 
 #include <stdio.h>
 
@@ -222,8 +230,8 @@ int str_endswith(char * stra, char * strb);
 #endif /* __STRUTILS_H__ */
 
 
-#ifndef __HEAP_H__
-#define __HEAP_H__
+#ifndef __LIBDS_HEAP_H__
+#define __LIBDS_HEAP_H__
 
 
 
@@ -238,17 +246,81 @@ int str_endswith(char * stra, char * strb);
    If the value at i is "less" than the value at j, the function should return
    an integer < 0. If the values at i and j are equal, this function should 
    return 0 */
-typedef int (*heapcmpfunc)(vector*, int, int);
+typedef int (*heapcmpfunc)(vector_p, int, int);
+
+struct heap {
+	vector_p vec;
+	heapcmpfunc cmpfunc;
+};
+
+typedef struct heap * heap_p;
+
+heap_p create_heap(heapcmpfunc cmpfunc);
+void destroy_heap(heap_p hp);
 
 /* maintain the heap property starting at index i */
-void heapify(vector * heap, int i, heapcmpfunc cmpfunc);
+void heapify(heap_p hp, int i);
 /* build the heap */
-void build_heap(vector * heap, heapcmpfunc cmpfunc);
+void build_heap(heap_p hp);
 /* removes the first element from the heap and then adjusts to maintain the 
    heap property */
-void heap_remove(vector * heap, heapcmpfunc cmpfunc);
+void heap_remove(heap_p hp);
 /* inserts the value into the heap such that the heap property is maintained */
-void heap_insert(vector * heap, void * val, int size, heapcmpfunc cmpfunc);
+void heap_insert(heap_p hp, void * val, int size);
 
 #endif /* __HEAP_H__ */
 
+#ifndef __LIBDS_TREE_H__
+#define __LIBDS_TREE_H__
+
+#include <stdlib.h>
+
+enum {
+	RED,
+	BLACK
+};
+
+typedef int (*treecmpfunc)(void*,void*);
+
+struct tree_node {
+	struct tree_node * left;
+	struct tree_node * right;
+	struct tree_node * parent;
+	void * data;
+	int color;
+};
+
+typedef struct tree_node * tnode_p;
+
+tnode_p make_node(void*, int);
+
+struct tree {
+	tnode_p root;
+	treecmpfunc cmpfunc;
+};
+
+typedef struct tree * tree_p;
+typedef void (*traversecb)(void*);
+
+tnode_p tree_insert(tree_p tr, void * data, int size);
+void tree_delete(tree_p tr, tnode_p node);
+
+void left_rotate(tree_p tr, tnode_p node);
+void right_rotate(tree_p tr, tnode_p node);
+
+tnode_p tree_minimum(tnode_p node);
+tnode_p tree_maximum(tnode_p node);
+
+tnode_p tree_predecessor(tnode_p node);
+tnode_p tree_successor(tnode_p node);
+
+tnode_p tree_search(tree_p tr, void * key);
+void traverse(tnode_p node, traversecb);
+
+void destroy_node(tnode_p node);
+
+int rb_color(tnode_p node);
+tnode_p rb_insert(tree_p tr, void * data, int size);
+void rb_delete(tree_p tr, tnode_p node);
+
+#endif
