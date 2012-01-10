@@ -52,5 +52,5 @@ clean:
 install: ds.h libds.a
 	mkdir -p $(PREFIX)/lib
 	cp libds.a $(PREFIX)/lib
-	mkdir -p $(PREFIX)/include/ds
-	cp ds.h $(HEADERS) $(PREFIX)/include/ds
+	mkdir -p $(PREFIX)/include
+	cp ds.h $(PREFIX)/include
