@@ -6,14 +6,12 @@
 
 #include <stdlib.h>
 #include "vector.h"
-#include <time.h>
 
-#define NUM_BUCKETS 3848921
+#define DEFAULT_NUM_BUCKETS 101
 
 struct item{
 	char* key;
 	void* val;
-	time_t expiry;
 	struct item * next;
 };
 
@@ -21,9 +19,10 @@ typedef struct item item_t;
 
 struct hashmap{
 	item_t** buckets;
-	size_t size;
 	vector_p keys;
 	void (*destructor)(void*);
+	size_t size;
+	size_t num_buckets;
 };
 
 typedef struct hashmap * hashmap_p;
@@ -50,5 +49,7 @@ size_t hash_func(char * key);
 
 /* Free all of the memory associated with hashmap m */
 void destroy_hashmap(hashmap_p m);
+
+void hashmap_resize(hashmap_p m, size_t num_buckets);
 
 #endif
