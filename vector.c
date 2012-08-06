@@ -41,13 +41,13 @@ void vector_add(vector_p vec, void* data, size_t n){
 }
 
 void* vector_get(vector_p vec, size_t i){
-	if(i >= vec->length || i < 0)
+	if(i >= vec->length)
 		return NULL;
 	return vec->data[i];
 }
 
 int vector_set(vector_p vec, size_t i, void* data, size_t n){
-	if(i >= vec->length || i < 0)
+	if(i >= vec->length)
 		return -1;
 	vec->destructor(vec->data[i]);
 	vec->data[i] = malloc(n);
@@ -59,7 +59,7 @@ int vector_set(vector_p vec, size_t i, void* data, size_t n){
 int vector_insert(vector_p vec, size_t i, void* data, size_t n){
 	int x;
 	
-	if(i > vec->length || i < 0)
+	if(i > vec->length)
 		return -1;
 	
 	check_length(vec);
@@ -76,7 +76,7 @@ int vector_insert(vector_p vec, size_t i, void* data, size_t n){
 
 void vector_remove(vector_p vec, size_t i){
 	int x;
-	if(i >= vec->length || i < 0)
+	if(i >= vec->length)
 		return;
 	vec->destructor(vec->data[i]);
 	vec->length--;
