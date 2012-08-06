@@ -9,7 +9,7 @@ int main(int argc, char *argv[]){
 	char ** array;
 	int len;
 	FILE * f;
-	int nb,i;
+	int nb;
 
 	if(argc < 2){
 		printf("Usage: %s filename\n", argv[0]);
@@ -17,7 +17,8 @@ int main(int argc, char *argv[]){
 	}
 	f = fopen(argv[1], "r");
 	buf = make_buffer(256);
-	while(nb = fread(str, sizeof(char), 255, f)){
+	
+    while((nb = fread(str, sizeof(char), 255, f)) > 0){
 		str[nb] = '\0';
 		buffer_concat(buf, str);
 	}
