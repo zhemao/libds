@@ -32,10 +32,14 @@ int main(void){
 	}
 	
 	build_heap(hp);
+
+    print_heap(hp->vec);
 	
 	for(i=8; i<10; i++){
 		heap_insert(hp, &i, sizeof(int));
 	}
+
+    print_heap(hp->vec);
 	
 	heap_remove(hp);
 	
