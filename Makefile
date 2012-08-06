@@ -1,4 +1,4 @@
-OPTS=-O2 -Wall
+CFLAGS=-O2 -Wall
 LDFLAGS=-L. -lds
 HEADERS=list.h vector.h hashmap.h strutils.h heap.h tree.h
 OBJS=list.o vector.o hashmap.o strutils.o heap.o tree.o 
@@ -11,25 +11,25 @@ ds.h: $(HEADERS)
 	cat $(HEADERS) | sed -e 's/#include "vector.h"//' > ds.h
 
 listtest: libds.a listtest.c
-	gcc $(OPTS) listtest.c $(LDFLAGS) -o listtest 
+	gcc $(CFLAGS) listtest.c $(LDFLAGS) -o listtest 
 
 vectest: libds.a vectest.c
-	gcc $(OPTS) vectest.c $(LDFLAGS) -o vectest
+	gcc $(CFLAGS) vectest.c $(LDFLAGS) -o vectest
 
 maptest: libds.a maptest.c
-	gcc $(OPTS) maptest.c $(LDFLAGS) -o maptest
+	gcc $(CFLAGS) maptest.c $(LDFLAGS) -o maptest
 	
 strutiltest: strutiltest.c libds.a
-	gcc $(OPTS) strutiltest.c $(LDFLAGS) -o strutiltest
+	gcc $(CFLAGS) strutiltest.c $(LDFLAGS) -o strutiltest
 
 heaptest: libds.a heaptest.c
-	gcc $(OPTS) heaptest.c $(LDFLAGS) -o heaptest
+	gcc $(CFLAGS) heaptest.c $(LDFLAGS) -o heaptest
 
 treetest: treetest.c libds.a
-	gcc $(OPTS) treetest.c $(LDFLAGS) -o treetest
+	gcc $(CFLAGS) treetest.c $(LDFLAGS) -o treetest
 
 %.o: %.c %.h
-	gcc $(OPTS) -c $<
+	gcc $(CFLAGS) -c $<
 
 clean:
 	rm -f *test *.o *.a
