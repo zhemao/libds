@@ -8,11 +8,11 @@ int main(void){
 	char* res;
 	hashmap_put(m, "key", (void*)"val", 4);
 	hashmap_put(m, "key", (void*)"val2", 5);
-	printf("hashmap size: %d\n", m->size);
+	printf("hashmap size: %d\n", (int) m->size);
 	res = (char*)hashmap_get(m, "key");
 	printf("key: %s\n", res);
 	hashmap_remove(m, "key");
-	printf("hashmap size: %d\n", m->size);
+	printf("hashmap size: %d\n", (int) m->size);
 
 	hashmap_put(m, "key1", (void*)"val1", 5);
 	hashmap_put(m, "key2", (void*)"val2", 5);
@@ -22,7 +22,7 @@ int main(void){
 
 	res = (char*) hashmap_get(m, "key1");
 	printf("key: %s\n", res);
-	printf("num_buckets: %d\n", m->num_buckets);
+	printf("num_buckets: %d\n", (int) m->num_buckets);
 
 	destroy_hashmap(m);
 	return 0;
