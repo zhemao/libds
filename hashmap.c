@@ -72,7 +72,7 @@ void hashmap_remove(hashmap_p m, char* key){
 	
 	if(itm != NULL){
 		if(last==NULL)
-			m->buckets[h] = NULL;
+			m->buckets[h] = itm->next;
 		else last->next = itm->next;
 		
 		free(itm->key);
