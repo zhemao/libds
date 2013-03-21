@@ -90,6 +90,7 @@ void* list_pop(list_p list){
 	void* data = last->data;
 	last->prev->next = NULL;
 	free(last);
+	list->length--;
 	return data;
 }
 
@@ -100,6 +101,7 @@ void* list_poll(list_p list){
 	void* data = first->data;
 	first->next->prev = NULL;
 	free(first);
+	list->length--;
 	return data;
 }
 
