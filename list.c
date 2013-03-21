@@ -86,9 +86,16 @@ void* list_last(list_p list){
 void* list_pop(list_p list){
 	lnode_p last = list->last;
 	if(last == NULL) return NULL;
-	list->last = last->prev;
+
+	if (list->first == list->last) {
+		list->first = NULL;
+		list->last = NULL;
+	} else {
+		list->last = last->prev;
+		last->prev->next = NULL;
+	}
+		
 	void* data = last->data;
-	last->prev->next = NULL;
 	free(last);
 	list->length--;
 	return data;
@@ -96,10 +103,19 @@ void* list_pop(list_p list){
 
 void* list_poll(list_p list){
 	lnode_p first = list->first;
-	if(first == NULL) return NULL;
-	list->first = first->next;
+	
+	if(first == NULL)
+		return NULL;
+	
+	if (list->first == list->last) {
+		list->first = NULL;
+		list->last = NULL;
+	} else {
+		list->first = first->next;
+		first->next->prev = NULL;
+	}
+
 	void* data = first->data;
-	first->next->prev = NULL;
 	free(first);
 	list->length--;
 	return data;

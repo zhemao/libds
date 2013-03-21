@@ -10,7 +10,14 @@ int main(int argc, char** argv){
 	list_p list2 = create_list();
 	int x;
 	int * pi;
-	
+
+	x = 0;
+	list_add(list, &x, sizeof(int));
+	list_remove(list, FRONT);
+
+	list_add(list, &x, sizeof(int));
+	list_remove(list, BACK);
+
 	for(x=0;x<10;x++){
 		list_add(list, (void*)&x, sizeof(int));
 		list_add(list2, (void*)&x, sizeof(int));
