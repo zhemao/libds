@@ -73,6 +73,10 @@ void* list_next(list_iter_p list);
 /* Advances the iterator to the previous item in the list and returns the data 
    stored there. */
 void* list_prev(list_iter_p list);
+/* Add an item with the given value and size after the node 'before' */
+void list_insert(list_p list, lnode_p before, void *data, int size);
+/* Remove an arbitrary node from the list and return it's value */
+void* list_pluck(list_p list, lnode_p removed);
 
 #endif
 #ifndef __LIBDS_VECTOR_H__
