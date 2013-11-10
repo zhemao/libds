@@ -65,7 +65,7 @@ int vector_insert(vector_p vec, size_t i, void* data, size_t n){
 	check_length(vec);
 	for(x=vec->length;x>=i;x--){
 		vec->data[x+1] = vec->data[x];
-		vec->sizes[x+1] = vec->sizes[x+1];
+		vec->sizes[x+1] = vec->sizes[x];
 	}
 	vec->data[i] = malloc(n);
 	vec->sizes[i] = n;
