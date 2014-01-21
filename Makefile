@@ -1,15 +1,15 @@
 CFLAGS=-O2 -Wall
 LDFLAGS=-L. -lds
-HEADERS=list.h vector.h hashmap.h strutils.h heap.h tree.h
-OBJS=list.o vector.o hashmap.o strutils.o heap.o tree.o 
+HEADERS=list.h vector.h hashmap.h strutils.h heap.h
+OBJS=list.o vector.o hashmap.o strutils.o heap.o
 PREFIX=/usr/local
 CC=gcc
 
 libds.a: $(OBJS)
 	ar rcs libds.a $(OBJS)
 
-test: listtest vectest maptest strutiltest heaptest treetest
-	
+test: listtest vectest maptest strutiltest heaptest
+
 ds.h: $(HEADERS)
 	cat $(HEADERS) | sed -e 's/#include "vector.h"//' > ds.h
 
