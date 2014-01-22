@@ -1,4 +1,4 @@
-# libds - Simple Data Structures in C
+# libds - Data Structures in C
 
 This is a collection of C implementations of common data structures.
 I implemented these as an exercise when I was first learning C.
