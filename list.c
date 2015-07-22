@@ -83,6 +83,10 @@ void* list_last(list_p list){
 	return list->last ? list->last->data : list->last;
 }
 
+int list_empty(list_p list){
+	return list->first ? 0 : 1;
+}
+
 void* list_pop(list_p list){
 	lnode_p last = list->last;
 	if(last == NULL) return NULL;
