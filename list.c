@@ -76,11 +76,11 @@ void* list_prev(list_iter_p iter){
 }
 
 void* list_first(list_p list){
-	return list->first->data;
+	return list->first ? list->first->data : list->first;
 }
 
 void* list_last(list_p list){
-	return list->last->data;
+	return list->last ? list->last->data : list->last;
 }
 
 void* list_pop(list_p list){
