@@ -49,6 +49,8 @@ void list_add(list_p list, void* data, int size);
 void* list_first(list_p list);
 /* Gets the data stored in the last item of the list or NULL if the list is empty */
 void* list_last(list_p list);
+/* Returns 1 (true) if the list is empty */
+int list_empty(list_p list);
 
 /* Removes the last item in the list (LIFO order) and returns the data stored 
    there. The data returned must be freed later in order to remain memory safe. */
